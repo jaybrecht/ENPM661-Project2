@@ -111,7 +111,7 @@ def BFS(start_point,goal_point,maze):
 
 if __name__ == '__main__':
     maze2_obs = read_obstacles('maze2.txt')
-    maze1_img,maze_arr2 = init_maze([300,200],maze2_obs,1)
+    maze1_img,maze_arr2 = init_maze([300,200],maze2_obs,1,5)
 
     nodes,success = BFS((0,0),(299,199),maze_arr2)
     path = generate_path(nodes)

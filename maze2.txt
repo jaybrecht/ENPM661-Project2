@@ -1,7 +1,7 @@
 circle
     center: 225,50
     radius: 25
-    color: 0,0,255
+    color: 255,0,0
 
 polygon
     point: 25,185
@@ -10,7 +10,7 @@ polygon
     point: 75,120
     point: 50,150
     point: 20,120
-    color: 0,255,0
+    color: 255,0,0
 
 polygon
     point: 225,10
@@ -25,7 +25,7 @@ ellipse
     angle: 0 
     start: 0
     end: 360
-    color: 200,120,50
+    color: 255,0,0
 
 rotatedrect
     start_point: 95,30

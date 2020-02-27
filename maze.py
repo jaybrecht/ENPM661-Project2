@@ -1,8 +1,9 @@
 import cv2 
 import math
 import numpy as np
+from shapely.geometry import Polygon
 
-def init_maze(size,obstacles,scale):
+def init_maze(size,obstacles,scale,offset):
     # init_maze creates a maze of specified size (tuple (w,h)) and obstacles
     # which can be circles, rectangles, polygons, ellipses, or rotated rectangles
     # and returns a scaled image of the maze and a binary numpy array that has the same
@@ -17,18 +18,44 @@ def init_maze(size,obstacles,scale):
         if obs['type'] == 'c': # circle
             center = (obs['center'][0]*scale,obs['center'][1]*scale)
             radius = obs['radius']*scale
-            maze = cv2.circle(maze,center,radius,obs['color'],-1)
+            if offset == 0:
+                maze = cv2.circle(maze,center,radius,obs['color'],-1)
+            else:
+                maze = cv2.circle(maze,center,radius+(offset*scale),obs['color'],-1)
+                maze = cv2.circle(maze,center,radius,(255,255,255),-1)
+
         elif obs['type'] == 'p': # polygon
             points = []
             for p in obs['points']:
                 points.append((p[0]*scale,maze_h-p[1]*scale))
             contour = np.array(points, dtype=np.int32)
-            maze = cv2.drawContours(maze,[contour],-1,obs['color'],-1)
+            
+            if offset == 0:
+                maze = cv2.drawContours(maze,[contour],-1,obs['color'],-1)
+            else:
+                off_contour = np.squeeze(contour)
+                polygon = Polygon(off_contour)
+                offset_poly = polygon.buffer(offset*scale,cap_style=2, join_style=2)
+                off_points = offset_poly.exterior.coords
+                off_contour = np.array(off_points, dtype=np.int32)
+                maze = cv2.drawContours(maze,[off_contour],-1,obs['color'],-1) 
+                maze = cv2.drawContours(maze,[contour],-1,(255,255,255),-1)           
+
         elif obs['type'] == 'e': # ellipse
             center = (obs['center'][0]*scale,obs['center'][1]*scale)
             axis_length = (obs['axis'][0]*scale,obs['axis'][1]*scale)
-            maze = cv2.ellipse(maze, center, axis_length, obs['angle'],
-                               obs['start'], obs['end'],obs['color'],-1)
+
+            if offset == 0:
+                maze = cv2.ellipse(maze, center, axis_length, obs['angle'],
+                    obs['start'], obs['end'],obs['color'],-1)
+            else:
+                off_axis_length = (obs['axis'][0]*scale+(offset*scale),
+                               obs['axis'][1]*scale+(offset*scale))
+                maze = cv2.ellipse(maze, center, off_axis_length, obs['angle'],
+                                   obs['start'], obs['end'],obs['color'],-1)
+                maze = cv2.ellipse(maze, center, axis_length, obs['angle'],
+                    obs['start'], obs['end'],(255,255,255),-1)
+
         elif obs['type'] == 'rr': # rotate rect
             w = obs['width']
             h = obs['height']
@@ -43,7 +70,18 @@ def init_maze(size,obstacles,scale):
             for p in points:
                 spoints.append((p[0]*scale,maze_h-p[1]*scale))
             contour = np.array(spoints, dtype=np.int32)
-            maze = cv2.drawContours(maze,[contour],-1,obs['color'],-1)
+            
+            if offset == 0:
+                maze = cv2.drawContours(maze,[contour],-1,obs['color'],-1)
+
+            else:
+                off_contour = np.squeeze(contour)
+                polygon = Polygon(off_contour)
+                offset_poly = polygon.buffer(offset*scale,cap_style=2, join_style=2)
+                off_points = offset_poly.exterior.coords
+                off_contour = np.array(off_points, dtype=np.int32)
+                maze = cv2.drawContours(maze,[off_contour],-1,obs['color'],-1) 
+                maze = cv2.drawContours(maze,[contour],-1,(255,255,255),-1) 
 
     maze_not_scaled = cv2.resize(maze,(size[0],size[1]))
     maze_arr = np.zeros((size[1],size[0]),dtype=np.int32)
@@ -188,9 +226,9 @@ if __name__ == '__main__':
     maze1_obs = read_obstacles('maze1.txt')
     maze2_obs = read_obstacles('maze2.txt')
 
-    maze1_img,matrix1 = init_maze([200,100],maze1_obs,3)
-    maze2_img,matrix2 = init_maze([300,200],maze2_obs,3)
-    
-    cv2.imshow("Maze1",maze1_img)
+    maze1_img,matrix1 = init_maze([200,100],maze1_obs,3,10)
+    maze2_img,matrix2 = init_maze([300,200],maze2_obs,3,5)
+
     cv2.imshow("Maze2",maze2_img)
+
     cv2.waitKey(0)
