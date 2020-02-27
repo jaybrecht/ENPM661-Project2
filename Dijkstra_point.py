@@ -111,21 +111,31 @@ def BFS(start_point,goal_point,maze):
 
 if __name__ == '__main__':
     maze2_obs = read_obstacles('maze2.txt')
-    scale = 3
-    maze1_img,maze_arr2 = init_maze([300,200],maze2_obs,scale,5)
+    maze_size = (300,200)
+    scale = 10
+    offset = 0
+    maze1_img,maze_arr = init_maze(maze_size,maze2_obs,scale,offset)
 
-    nodes,success = BFS((0,0),(299,199),maze_arr2)
-    path = generate_path(nodes)
-    for point in path:
-        if scale == 1:
-            maze1_img[point[1],point[0]] = (255,255,255)
-        else:
-            sx = point[0]*scale
-            sy = point[1]*scale
-            ex = sx+scale
-            ey = sy+scale
-            cv2.rectangle(maze1_img,(sx,sy),(ex,ey),(255,255,255),-1)
+    start_point = (0,0)
+    goal_point = (75,75)
+    nodes,success = BFS(start_point,goal_point,maze_arr)
 
-    cv2.imshow("Completed Maze",maze1_img)
-    cv2.waitKey(0)
+    if success:
+        path = generate_path(nodes)
+        for point in path:
+            if scale == 1:
+                maze1_img[point[1],point[0]] = (255,255,255)
+            else:
+                sx = point[0]*scale
+                sy = point[1]*scale
+                ex = sx+scale
+                ey = sy+scale
+                cv2.rectangle(maze1_img,(sx,sy),(ex,ey),(255,255,255),-1)
+        cv2.imshow("Completed Maze",maze1_img)
+        cv2.waitKey(0)
+        
+    else:
+        print("The goal can not be reached")
+    
+
 
