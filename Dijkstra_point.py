@@ -117,8 +117,11 @@ if __name__ == '__main__':
     maze1_img,maze_arr = init_maze(maze_size,maze2_obs,scale,offset)
 
     start_point = (0,0)
-    goal_point = (75,75)
-    nodes,success = BFS(start_point,goal_point,maze_arr)
+    goal_point = (150,150)
+    if in_maze(goal_point,maze_arr):
+        nodes,success = BFS(start_point,goal_point,maze_arr)
+    else:
+        success = False
 
     if success:
         path = generate_path(nodes)
@@ -131,9 +134,9 @@ if __name__ == '__main__':
                 ex = sx+scale
                 ey = sy+scale
                 cv2.rectangle(maze1_img,(sx,sy),(ex,ey),(255,255,255),-1)
-        cv2.imshow("Completed Maze",maze1_img)
-        cv2.waitKey(0)
-        
+            cv2.imshow("Completed Maze",maze1_img)
+            cv2.waitKey(5)
+
     else:
         print("The goal can not be reached")
     
