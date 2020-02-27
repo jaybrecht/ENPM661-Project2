@@ -5,7 +5,7 @@ from shapely.geometry import Polygon
 
 def init_maze(size,obstacles,scale,offset):
     # init_maze creates a maze of specified size (tuple (w,h)) and obstacles
-    # which can be circles, rectangles, polygons, ellipses, or rotated rectangles
+    # which can be circles, polygons, ellipses, or rotated rectangles
     # and returns a scaled image of the maze and a binary numpy array that has the same
     # dimensions as the maze where a '1' represents an obstacle and '0' represents
     # free space

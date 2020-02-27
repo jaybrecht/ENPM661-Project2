@@ -111,12 +111,20 @@ def BFS(start_point,goal_point,maze):
 
 if __name__ == '__main__':
     maze2_obs = read_obstacles('maze2.txt')
-    maze1_img,maze_arr2 = init_maze([300,200],maze2_obs,1,5)
+    scale = 3
+    maze1_img,maze_arr2 = init_maze([300,200],maze2_obs,scale,5)
 
     nodes,success = BFS((0,0),(299,199),maze_arr2)
     path = generate_path(nodes)
     for point in path:
-        maze1_img[point[1],point[0]] = (255,255,255)
+        if scale == 1:
+            maze1_img[point[1],point[0]] = (255,255,255)
+        else:
+            sx = point[0]*scale
+            sy = point[1]*scale
+            ex = sx+scale
+            ey = sy+scale
+            cv2.rectangle(maze1_img,(sx,sy),(ex,ey),(255,255,255),-1)
 
     cv2.imshow("Completed Maze",maze1_img)
     cv2.waitKey(0)
