@@ -1,4 +1,4 @@
-import cv2
+import cv2 
 import math
 import numpy as np
 
@@ -48,6 +48,7 @@ def init_maze(size,obstacles,scale):
     maze_not_scaled = cv2.resize(maze,(size[0],size[1]))
     maze_arr = np.zeros((size[1],size[0]),dtype=np.int32)
     inds=np.nonzero(maze_not_scaled)
+    
     for i in range(len(inds[0])):
         x = inds[1][i]
         y = inds[0][i]
