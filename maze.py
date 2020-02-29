@@ -222,6 +222,17 @@ def read_obstacles(filename):
 
     return obstacles
 
+
+def in_maze(point,maze):
+    # Checks whether a point is in bounds and not an obstacle
+    x = point[0]
+    y = point[1]
+    if 0<=x<maze.shape[1] and 0<=y<maze.shape[0]:
+        if maze[y,x] != 1:
+            return True
+    return False
+    
+
 if __name__ == '__main__':
     maze1_obs = read_obstacles('maze1.txt')
     maze2_obs = read_obstacles('maze2.txt')
