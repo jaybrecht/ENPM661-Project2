@@ -133,21 +133,21 @@ def Dijkstra(start_point,goal_point,maze):
 
 
 if __name__ == '__main__':
-    maze_obs = read_obstacles('maze2.txt')
-    maze_size = (300,200)
-    robot_size = 5
+    maze_obs = read_obstacles('maze1.txt')
+    maze_size = (200,100)
+    robot_size = 3
     scale = 1
     maze_img,maze_arr = init_maze(maze_size,maze_obs,scale,robot_size)
 
     start_point = (0,0)
-    goal_point = (299,199)
+    goal_point = (199,99)
     if in_maze(goal_point,maze_arr):
         nodes,parents,costs,isgoal = Dijkstra(start_point,goal_point,maze_arr)
         if isgoal:
             print('The goal has been found')
             path = generate_path(nodes,parents)
             print('The path has been found')
-            visualize_path(maze_img,nodes,path,scale)
+            visualize_path(maze_img,nodes,path,scale,robot_size)
         else:
             print('The goal cannot be reached')
     else:

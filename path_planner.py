@@ -1,5 +1,6 @@
 import cv2 
 import numpy as np
+import time
 
 def generate_path(nodes,parents):
     #Assume the last item in nodes is the goal node
@@ -19,8 +20,16 @@ def generate_path(nodes,parents):
     return path
 
 
-def visualize_path(maze_img,nodes,path,scale):
-    print('Showing Visualization')
+def visualize_path(maze_img,nodes,path,scale,robot_size):
+    fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+    frame_size = (maze_img.shape[1], maze_img.shape[0])
+    today = time.strftime("%m-%d__%H.%M.%S")
+    videoname=str(today)
+    fps_out = 60
+    out = cv2.VideoWriter(str(videoname)+".mov", fourcc, fps_out, frame_size)
+    cur_frame = 1
+    print("Writing to Video, Please Wait")
+    tot_frames = len(nodes)//50
     for i,point in enumerate(nodes):
         if scale == 1:
             maze_img[point[1],point[0]] = (255,255,255)
@@ -31,22 +40,15 @@ def visualize_path(maze_img,nodes,path,scale):
             ey = sy+scale
             cv2.rectangle(maze_img,(sx,sy),(ex,ey),(255,255,255),-1)
 
-        if i%100 == 0:
-            cv2.imshow("Maze",maze_img)
-            cv2.waitKey(5)
-
-        if cv2.waitKey(1) == ord('q'):
-            exit()
+        if i%10 == 0:
+            print('Frame number:' + str(cur_frame) + ' of ' + str(tot_frames))
+            out.write(maze_img)
+            cur_frame += 1
 
     for point in path:
-        if scale == 1:
-            maze_img[point[1],point[0]] = (0,0,255)
-        else:
-            sx = point[0]*scale
-            sy = point[1]*scale
-            ex = sx+scale
-            ey = sy+scale
-            cv2.rectangle(maze_img,(sx,sy),(ex,ey),(0,0,255),-1)
+        sx = point[0]*scale
+        sy = point[1]*scale
+        cv2.circle(maze_img,(sx,sy),robot_size*scale,(0,0,255),-1)
+        out.write(maze_img)
 
-    cv2.imshow("Maze",maze_img)
-    cv2.waitKey(0)
+    out.release()
