@@ -4,6 +4,7 @@ from robot import PointRobot
 
 write_to_video = False
 show_visualization = True
+search_type = 'D' # D for Dijkstra, B for BFS
 
 # Construct maze object
 scale = 5
@@ -29,8 +30,12 @@ else:
 # Contstruct the robot
 robot = PointRobot(maze,start_point,goal_point)
 
-# Run Dijkstra Search
-robot.Dijkstra()
+# Run Search
+if search_type == 'D':
+    robot.Dijkstra()
+if search_type == 'B':
+    robot.BFS()
+
 if robot.foundGoal:
     robot.generate_path()
 else:

@@ -34,7 +34,7 @@ class Robot:
         return new_point
 
 
-    def check_neighbors(self,cur_node,maze):
+    def check_neighbors(self,cur_node):
         directions = ['E','NE','N','NW','W','SW','S','SE']
 
         neighbors = []
@@ -51,7 +51,10 @@ class Robot:
         return neighbors
 
 
-    def BFS(self,start_point,goal_point,maze):
+    def BFS(self):
+        start_point = self.start
+        goal_point = self.goal
+        maze = self.maze.maze
         nodes = []
 
         # Checked points are additionally stored in a set which is much faster for 
@@ -74,7 +77,7 @@ class Robot:
             # Set the current node as the top of the queue and remove it
             parent = queue.popleft()
             cur_node = nodes[parent]
-            neighbors = check_neighbors(cur_node,maze)
+            neighbors = self.check_neighbors(cur_node)
 
             for n in neighbors:
                 p = n[0]
@@ -123,7 +126,7 @@ class Robot:
             parent = queue.popleft()
             cur_node = nodes[parent]
             cost2come = costs[cur_node[1],cur_node[0]]
-            neighbors = self.check_neighbors(cur_node,maze)
+            neighbors = self.check_neighbors(cur_node)
 
             for n in neighbors:
                 p = n[0]
