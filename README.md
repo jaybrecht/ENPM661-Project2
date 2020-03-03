@@ -16,7 +16,7 @@ The user specifies a start point and goal point in the maze and the program find
 
 The program generates a visualization of the searched nodes in yellow 
 
-![searching_nodes](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/seraching_nodes.png)
+![searching_nodes](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/searched_nodes.png)
 
 And plots the path to the goal in red.
 
