@@ -4,17 +4,40 @@
 
 The goal of this project is to find the optimal path through a Cartesian maze with obstacles for both a point and rigid (circular) robot. The search algorithm that is used to find the path is Dijkstra, which is similar to Breadth First Search but with the addition of consideration to movement cost. For this project the robot is able to move in 8 directions: (N, NE, E, SE, S, SW, W, NW). The cardinal directions (N,E,S,W) have a cost of 1 and the sub-cardinal directions (NE,SE,SW,NW) have a cost of <img src="https://render.githubusercontent.com/render/math?math=\sqrt{2}"> . There are two mazes included in the repository.
 
-Maze 1, which has a grid size of (200 x 100) and two obstacles a square and a circle.
+Maze 1, which has a grid size of 200x100 and two obstacles a square and a circle.
 
-![maze1](https://github.com/jaybrecht/ENPM661-Project2/blob/master/images/maze1.png)
+![maze1](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/maze1.png)
 
 Maze 2 is more complicated with a larger grid size of 300x200 and 6 obstacles, a concave polygon, a circle, an ellipse, a rotated rectangle, and a diamond. 
 
-![maze2](https://github.com/jaybrecht/ENPM661-Project2/blob/master/images/maze2.png)
+![maze2](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/maze2.png)
 
-## Point Robot
+The user specifies a start point and goal point in the maze and the program finds the optimal path to the goal.
 
-For a point robot the 
+The program generates a visualization of the searched nodes in yellow 
+
+![searching_nodes](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/seraching_nodes.png)
+
+And plots the path to the goal in red.
+
+![solution](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/solution.png)
+
+The code has two main modes point robot and rigid robot.
+
+## Instructions for Running the Program
+
+### Point Robot
+
+To run the point robot code, clone this repository, open a new terminal window and type `python Dijkstra_point.py`, if you have older versions of python installed you may need to run `python3` instead. The program will prompt you to enter a start point and goal point. If the points are valid and a solution is possible, the program will then show the visualization of the solution. This mode treats the robot as a point so the robot can occupy any pixels in the grid. 
+
+### Rigid Robot
+
+To run the point robot code, clone this repository, open a new terminal window and type `python Dijkstra_point.py`, if you have older versions of python installed you may need to run `python3` instead. The program will prompt you to enter a start point and goal point and the radius of your robot. If the points are valid and a solution is possible, the program will then show the visualization of the solution. This mode treats your robot as a circle with the given radius and expands all of the obstacles by the radius.
+
+![expanded_obstacles](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/expanded_obstacles.png)
+
+It then solves the maze the same way as the point robot. 
+
 
 ## Creating New Mazes
 
@@ -41,9 +64,9 @@ To add a rotated rectangle obstacle you need to specify the center point (x,y), 
     ellipse
         center: x,y
         axis: a1,a2
-        angle: 0 
-        start: 0
-        end: 360
+        angle: a 
+        start: a
+        end: a
         color: B,G,R
 
 ### Polygon
@@ -57,5 +80,20 @@ To add a polygon obstacle you need to specify all points that make up the exteri
         color: B,G,R
 
 ### Rotated Rectangle
-To add a rotated rectangle obstacle you need to specify the position of the starting corner (the code currently only supports the starting corner as the bottom right corner), the length of both sides l1 and l2, and the rotation angle. You may also specify a color in BGR (B,G,R).
+To add a rotated rectangle obstacle you need to specify the position of the starting corner (the code currently only supports the starting corner as the bottom right corner), the length of both sides l1 and l2, and the rotation angle. You may also specify a color in BGR (B,G,R). The lines in text file should look like this
 
+    rotatedrect
+        start_point: x,y
+        l1: l1
+        l2: l2
+        angle: a
+        color: B,G,R
+
+## Dependencies 
+
+    cv2
+    math
+    numpy
+    collections
+    time
+    shapely

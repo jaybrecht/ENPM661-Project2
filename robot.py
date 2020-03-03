@@ -194,7 +194,9 @@ class PointRobot(Robot):
                 ex = sx+self.maze.scale
                 ey = sy+self.maze.scale
                 cv2.rectangle(self.maze.image,(sx,sy),(ex,ey),(0,255,255),-1)
-
+            if i == 5000:
+                cv2.imwrite('Images/searched_nodes.png',self.maze.image)
+            
             if i%stepsize == 0:
                 if output:
                     print('Frame number:' + str(cur_frame) + ' of ' + str(tot_frames))
@@ -217,6 +219,8 @@ class PointRobot(Robot):
                 cv2.imshow('Maze Visualization',self.maze.image)
             if cv2.waitKey(1) == ord('q'):
                 exit()
+            if point == self.goal:
+                cv2.imwrite('Images/solution.png',self.maze.image)
 
         if output:
             out.release()
@@ -258,6 +262,7 @@ class RigidRobot(Robot):
                     cur_frame += 1
                 if show:
                     cv2.imshow('Maze Visualization',self.maze.image)
+                    
                 if cv2.waitKey(1) == ord('q'):
                     exit()
 
@@ -274,6 +279,8 @@ class RigidRobot(Robot):
                 cv2.imshow('Maze Visualization',self.maze.image)
             if cv2.waitKey(1) == ord('q'):
                 exit()
+            if point == self.goal:
+                cv2.imwrte('searched_nodes.png',self.maze.image)
 
         if output:
             out.release()

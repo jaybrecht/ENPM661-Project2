@@ -291,7 +291,8 @@ class Maze:
     
 
 if __name__ == '__main__':
-    maze = 'maze1'
+    maze = 'maze2'
     mymaze = Maze(maze+'.txt',3)
-    cv2.imwrite(maze+'.png',mymaze.image)
+    mymaze.expand_obstacles(10)
+    cv2.imwrite('Images/expanded_obstacles.png',mymaze.image)
     cv2.waitKey(0)

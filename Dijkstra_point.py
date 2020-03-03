@@ -3,7 +3,7 @@ from maze import Maze
 from robot import PointRobot
 
 write_to_video = False
-show_visualization = True
+show_visualization = False
 search_type = 'D' # D for Dijkstra, B for BFS
 
 # Construct maze object
