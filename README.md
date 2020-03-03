@@ -6,21 +6,21 @@ The goal of this project is to find the optimal path through a Cartesian maze wi
 
 Maze 1, which has a grid size of 200x100 and two obstacles a square and a circle.
 
-![maze1](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/maze1.png)
+![maze1](https://github.com/jaybrecht/ENPM661-Project2/blob/master/Images/maze1.png)
 
 Maze 2 is more complicated with a larger grid size of 300x200 and 6 obstacles, a concave polygon, a circle, an ellipse, a rotated rectangle, and a diamond. 
 
-![maze2](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/maze2.png)
+![maze2](https://github.com/jaybrecht/ENPM661-Project2/blob/master/Images/maze2.png)
 
 The user specifies a start point and goal point in the maze and the program finds the optimal path to the goal.
 
 The program generates a visualization of the searched nodes in yellow 
 
-![searching_nodes](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/searched_nodes.png)
+![searching_nodes](https://github.com/jaybrecht/ENPM661-Project2/blob/master/Images/searched_nodes.png)
 
 And plots the path to the goal in red.
 
-![solution](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/solution.png)
+![solution](https://github.com/jaybrecht/ENPM661-Project2/blob/master/Images/solution.png)
 
 The code has two main modes point robot and rigid robot.
 
@@ -34,7 +34,7 @@ To run the point robot code, clone this repository, open a new terminal window a
 
 To run the point robot code, clone this repository, open a new terminal window and type `python Dijkstra_point.py`, if you have older versions of python installed you may need to run `python3` instead. The program will prompt you to enter a start point and goal point and the radius of your robot. If the points are valid and a solution is possible, the program will then show the visualization of the solution. This mode treats your robot as a circle with the given radius and expands all of the obstacles by the radius.
 
-![expanded_obstacles](https://github.com/jaybrecht/ENPM661-Project2/blob/classes/Images/expanded_obstacles.png)
+![expanded_obstacles](https://github.com/jaybrecht/ENPM661-Project2/blob/master/Images/expanded_obstacles.png)
 
 It then solves the maze the same way as the point robot. 
 
