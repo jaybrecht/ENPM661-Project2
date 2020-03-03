@@ -1,9 +1,9 @@
 import cv2 
 from maze import Maze
-from robot import PointRobot
+from robot import RigidRobot
 
-write_to_video = False
-show_visualization = True
+write_to_video = True
+show_visualization = False
 
 # Construct maze object
 scale = 5
@@ -12,6 +12,7 @@ maze = Maze('maze2.txt',scale)
 # Ask user for start point and goal point
 start_point = (0,0)
 goal_point = (100,100)
+robot_size = 5
 
 # Check if points are valid in maze 
 if maze.in_maze(start_point):
@@ -27,7 +28,10 @@ else:
     exit()
 
 # Contstruct the robot
-robot = PointRobot(maze,start_point,goal_point)
+robot = RigidRobot(maze,start_point,goal_point,robot_size)
+
+# Expand obstacles
+robot.maze.expand_obstacles(robot.radius)
 
 # Run Dijkstra Search
 robot.Dijkstra()
