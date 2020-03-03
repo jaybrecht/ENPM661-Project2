@@ -4,11 +4,11 @@ width: 200
 circle
     center: 160,50
     radius: 15
-    color: 0,0,255
+    color: 255,0,0
 
 polygon
     point: 90,40
     point: 110,40
     point: 110,60
     point: 90,60
-    color: 0,255,0
+    color: 255,0,0

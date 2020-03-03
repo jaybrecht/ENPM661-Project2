@@ -148,6 +148,7 @@ class Robot:
         self.costs = costs
         self.foundGoal = isgoal
 
+
     def generate_path(self):
         nodes = self.nodes
         parents = self.parents
@@ -159,14 +160,12 @@ class Robot:
             parent_node = nodes[path_nodes[-1]]
             parent = parents[parent_node[1],parent_node[0]]
             path_nodes.append(parent)
-        path = [goal]
+        self.path = [goal]
         for ind in path_nodes:
             if ind == -1:
                 break
             else:
-                path.insert(0,nodes[ind])
-        
-        self.path = path
+                self.path.insert(0,nodes[ind])
 
 
 class PointRobot(Robot):
