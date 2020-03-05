@@ -12,6 +12,7 @@ class Maze:
         self.read_obstacles()
 
         self.image = np.zeros((self.height*scale,self.width*scale,3),np.uint8)
+        self.maze = np.zeros((self.height,self.width),dtype=np.uint8)
 
         for obs in self.obstacles:
             if obs['type'] == 'c': # circle
@@ -27,7 +28,6 @@ class Maze:
                 self.draw_rotated_rect(obs,0,obs['color'])
 
         maze_not_scaled = cv2.resize(self.image,(self.width,self.height))
-        self.maze = np.zeros((self.height,self.width),dtype=np.uint8)
         inds=np.nonzero(maze_not_scaled)
         
         for i in range(len(inds[0])):
@@ -53,6 +53,11 @@ class Maze:
         self.image = cv2.circle(self.image,center,radius+(offset*self.scale),color,-1)
 
 
+    def define_circle(self,obs,offset):
+        # Write code that modifies that attribute maze to have 1s everywhere inside
+        # of the obstacle obs. Should expand the obstacle by the offset
+
+
     def draw_polygon(self,obs,offset,color):
         # Draws a polygon on the maze image
         points = []
@@ -72,6 +77,11 @@ class Maze:
             self.image = cv2.drawContours(self.image,[off_contour],-1,color,-1) 
 
 
+    def define_polygon(self,obs,offset):
+        # Write code that modifies that attribute maze to have 1s everywhere inside
+        # of the obstacle obs. Should expand the obstacle by the offset
+
+
     def draw_ellipse(self,obs,offset,color):
         # Draws an ellipse on the maze image
         center = (obs['center'][0]*self.scale,obs['center'][1]*self.scale)
@@ -80,6 +90,11 @@ class Maze:
                        obs['axis'][1]*self.scale+(offset*self.scale))
         self.image = cv2.ellipse(self.image, center, axis, obs['angle'],
                         obs['start'], obs['end'],color,-1)
+
+
+    def define_ellipse(self,obs,offset):
+        # Write code that modifies that attribute maze to have 1s everywhere inside
+        # of the obstacle obs. Should expand the obstacle by the offset
 
 
     def draw_rotated_rect(self,obs,offset,color):
@@ -106,7 +121,13 @@ class Maze:
             offset_poly = polygon.buffer(offset*self.scale,cap_style=2, join_style=2)
             off_points = offset_poly.exterior.coords
             off_contour = np.array(off_points, dtype=np.int32)
-            self.image = cv2.drawContours(self.image,[off_contour],-1,color,-1)  
+            self.image = cv2.drawContours(self.image,[off_contour],-1,color,-1)
+
+
+    def define_rotated_rect(self,obs,offset):
+        # Write code that modifies that attribute maze to have 1s everywhere inside
+        # of the obstacle obs. Should expand the obstacle by the offset, may be easier
+        # to just define the points and pass them into define_polygon
 
 
     def expand_obstacles(self,offset):
