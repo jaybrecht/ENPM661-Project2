@@ -10,6 +10,7 @@ class Maze:
         self.filename = filename
         self.scale = scale
         self.read_obstacles()
+        print(self.obstacles)
 
         self.image = np.zeros((self.height*scale,self.width*scale,3),np.uint8)
         self.maze = np.zeros((self.height,self.width),dtype=np.uint8)
@@ -19,7 +20,8 @@ class Maze:
                 self.draw_circle(obs,0,obs['color'])
 
             elif obs['type'] == 'p': # polygon
-                self.draw_polygon(obs,0,obs['color'])         
+                self.draw_polygon(obs,0,obs['color'])
+                self.define_polygon(obs, 0)
 
             elif obs['type'] == 'e': # ellipse
                 self.draw_ellipse(obs,0,obs['color'])
@@ -53,7 +55,7 @@ class Maze:
         self.image = cv2.circle(self.image,center,radius+(offset*self.scale),color,-1)
 
 
-    def define_circle(self,obs,offset):
+    #ef define_circle(self,obs,offset):
         # Write code that modifies that attribute maze to have 1s everywhere inside
         # of the obstacle obs. Should expand the obstacle by the offset
 
@@ -80,7 +82,39 @@ class Maze:
     def define_polygon(self,obs,offset):
         # Write code that modifies that attribute maze to have 1s everywhere inside
         # of the obstacle obs. Should expand the obstacle by the offset
+        points=obs['points']
+        points.append(points[0])
+        contour = np.array(obs['points'], dtype=np.int32)    
+        topx,topy,w,h = cv2.boundingRect(contour)
+        test = (topx+w//2, topy+h//2)
+        print(test)
+       
+        a,b,c=[],[],[]
+        for i in range(len(points)-1):
+            ai=(points[i][1]-points[i+1][1])
+            bi=(points[i+1][0]-points[i][0])
+            ci=((points[i][0]*points[i+1][1])-(points[i+1][0]*points[i][1]))
+            if (ai*test[0]+bi*test[1]+ci<0):
+                ai*=-1
+                bi*=-1
+                ci*=-1
+            a.append(ai)
+            b.append(bi)
+            c.append(ci)
+        
+        
+        for x in range(topx, topx+w+1):
+            for y in range(topy, topy+h+1):
+                count=0    
+                for i in range(len(a)):
+                    if (a[i]*x + b[i]*y +c[i] <= 0):
+                        count+=1
+                if count==len(a):
+                    self.maze[y,x]=255
+                
 
+            
+        
 
     def draw_ellipse(self,obs,offset,color):
         # Draws an ellipse on the maze image
@@ -93,7 +127,7 @@ class Maze:
 
 
     def define_ellipse(self,obs,offset):
-        # Write code that modifies that attribute maze to have 1s everywhere inside
+        pass# Write code that modifies that attribute maze to have 1s everywhere inside
         # of the obstacle obs. Should expand the obstacle by the offset
 
 
@@ -125,6 +159,7 @@ class Maze:
 
 
     def define_rotated_rect(self,obs,offset):
+        pass
         # Write code that modifies that attribute maze to have 1s everywhere inside
         # of the obstacle obs. Should expand the obstacle by the offset, may be easier
         # to just define the points and pass them into define_polygon
@@ -312,8 +347,9 @@ class Maze:
     
 
 if __name__ == '__main__':
-    maze = 'maze2'
-    mymaze = Maze(maze+'.txt',3)
-    mymaze.expand_obstacles(10)
-    cv2.imwrite('Images/expanded_obstacles.png',mymaze.image)
+    maze = 'maze3'
+    mymaze = Maze(maze+'.txt',1)
+    cv2.imshow('maze_image', mymaze.image)
+    #mymaze.expand_obstacles(10)
+    cv2.imshow('Maze',mymaze.maze)
     cv2.waitKey(0)
