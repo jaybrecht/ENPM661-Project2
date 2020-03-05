@@ -8,11 +8,16 @@ circle
 
 polygon
     point: 25,185
-    point: 75,185
-    point: 100,150
-    point: 75,120
-    point: 50,150
     point: 20,120
+    point: 50,150
+    color: 255,0,0
+
+polygon
+    point: 75,185
+    point: 25,185
+    point: 50,150
+    point: 75,120
+    point: 100,150
     color: 255,0,0
 
 polygon
