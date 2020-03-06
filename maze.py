@@ -404,10 +404,7 @@ class Maze:
     
 
 if __name__ == '__main__':
-    maze = 'maze2'
+    maze = 'maze1'
     mymaze = Maze(maze+'.txt',5)
-    cv2.imshow('Maze',mymaze.maze)
-    mymaze.expand_obstacles(5)
-    cv2.imshow('Maze after expansion',mymaze.maze)
-    # cv2.imshow('Maze Image',mymaze.image)
-    cv2.waitKey(0)
+    cv2.imwrite('Images/maze1.png',mymaze.image)
+
