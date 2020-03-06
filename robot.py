@@ -220,7 +220,7 @@ class PointRobot(Robot):
                 exit()
             if point == self.goal:
                 cv2.imwrite('Images/solution.png',self.maze.image)
-
+                cv2.waitKey(0)
         if output:
             out.release()
 
@@ -280,8 +280,9 @@ class RigidRobot(Robot):
                 cv2.imshow('Maze Visualization',self.maze.image)
             if cv2.waitKey(1) == ord('q'):
                 exit()
-            # if point == self.goal:
-                # cv2.imwrite('searched_nodes.png',self.maze.image)
+            if point == self.goal:
+                #cv2.imwrite('searched_nodes.png',self.maze.image)
+                cv2.waitKey(0)
 
         if output:
             out.release()
