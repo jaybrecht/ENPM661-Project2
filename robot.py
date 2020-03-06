@@ -226,9 +226,10 @@ class PointRobot(Robot):
 
 
 class RigidRobot(Robot):
-    def __init__(self,maze,start_point,goal_point,radius):
+    def __init__(self,maze,start_point,goal_point,radius,clearance):
         super().__init__(maze,start_point,goal_point)
         self.radius = radius
+        self.clearance = clearance
 
     def visualize(self,show,output,stepsize):
         node_color = (102, 255, 255)

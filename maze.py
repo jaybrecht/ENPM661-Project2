@@ -219,23 +219,23 @@ class Maze:
         off_color = (255,102,0)
         for obs in self.obstacles:
             if obs['type'] == 'c': # circle
-                self.draw_circle(obs,offset,off_color)
-                self.draw_circle(obs,0,obs['color'])
+                # self.draw_circle(obs,offset,off_color)
+                # self.draw_circle(obs,0,obs['color'])
                 self.define_circle(obs, offset)
 
             elif obs['type'] == 'p': # polygon
-                self.draw_polygon(obs,offset,off_color)    
-                self.draw_polygon(obs,0,obs['color'])  
+                # self.draw_polygon(obs,offset,off_color)    
+                # self.draw_polygon(obs,0,obs['color'])  
                 self.define_polygon(obs, offset)       
 
             elif obs['type'] == 'e': # ellipse
-                self.draw_ellipse(obs,offset,off_color)
-                self.draw_ellipse(obs,0,obs['color'])
+                # self.draw_ellipse(obs,offset,off_color)
+                # self.draw_ellipse(obs,0,obs['color'])
                 self.define_ellipse(obs, offset)
 
             elif obs['type'] == 'rr': # rotate rect
-                self.draw_rotated_rect(obs,offset,off_color)
-                self.draw_rotated_rect(obs,0,obs['color'])
+                # self.draw_rotated_rect(obs,offset,off_color)
+                # self.draw_rotated_rect(obs,0,obs['color'])
                 self.define_rotated_rect(obs, offset)
 
         # maze_not_scaled = cv2.resize(self.image,(self.width,self.height))

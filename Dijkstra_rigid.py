@@ -4,7 +4,7 @@ from robot import RigidRobot
 
 write_to_video = False
 show_visualization = True
-user_input = True
+user_input = False
 search_type = 'D' # D for Dijkstra, B for BFS
 
 # Construct maze object
@@ -46,8 +46,12 @@ if user_input:
     print('Please enter the size of your robot')
     size_str = input('radius: ')
     robot_size = int(size_str)
+    print('Please enter the clearance for your robot')
+    clear_str = input('clearance: ')
+    clearance = int(clear_str)
 else:
     robot_size = 5
+    clearance = 3
 
 # Check if points are valid in maze 
 if maze.in_maze(start_point):
@@ -62,11 +66,11 @@ else:
     print("The goal point is not valid")
     exit()
 
-# Contstruct the robot
-robot = RigidRobot(maze,start_point,goal_point,robot_size)
+# Construct the robot
+robot = RigidRobot(maze,start_point,goal_point,robot_size,clearance)
 
 # Expand obstacles
-robot.maze.expand_obstacles(robot.radius)
+robot.maze.expand_obstacles(robot.radius+robot.clearance)
 
 # Run Search
 if search_type == 'D':
