@@ -4,7 +4,7 @@ from robot import RigidRobot
 
 write_to_video = False
 show_visualization = True
-user_input = False
+user_input = True
 search_type = 'D' # D for Dijkstra, B for BFS
 
 # Construct maze object
