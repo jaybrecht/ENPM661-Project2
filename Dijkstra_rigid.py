@@ -9,7 +9,7 @@ search_type = 'D' # D for Dijkstra, B for BFS
 
 # Construct maze object
 scale = 5
-maze = Maze('maze2_rigid.txt',scale)
+maze = Maze('maze2.txt',scale)
 
 # Ask user for start point and goal point
 if user_input:
@@ -19,6 +19,7 @@ if user_input:
     start_point = (int(start_str_x),int(start_str_y))
 else:
     start_point = (5,5)
+
 # Check if start point is valid in maze 
 if maze.in_maze(start_point):
     pass

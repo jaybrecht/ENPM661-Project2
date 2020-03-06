@@ -10,7 +10,6 @@ class Robot:
         self.start = start_point
         self.goal = goal_point
 
-
     def move(self,point,direction):
         x = point[0]
         y = point[1]
@@ -267,7 +266,7 @@ class RigidRobot(Robot):
                 if cv2.waitKey(1) == ord('q'):
                     exit()
 
-        self.maze.contract_obstacles(self.radius)
+        # self.maze.contract_obstacles(self.radius)
 
         for point in self.path:
             sx = point[0]*self.maze.scale

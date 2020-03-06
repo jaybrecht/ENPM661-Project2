@@ -8,23 +8,23 @@ circle
 
 polygon
     point: 25,185
-    point: 20,120
     point: 50,150
+    point: 20,120
     color: 255,204,204
 
 polygon
     point: 75,185
-    point: 25,185
-    point: 50,150
-    point: 75,120
     point: 100,150
+    point: 75,120
+    point: 50,150
+    point: 25,185
     color: 255,204,204
 
 polygon
     point: 225,10
-    point: 250,25
-    point: 225,40
     point: 200,25
+    point: 225,40
+    point: 250,25
     color: 255,204,204
 
 ellipse
