@@ -4,6 +4,7 @@ from robot import RigidRobot
 
 write_to_video = False
 show_visualization = True
+user_input = True
 search_type = 'D' # D for Dijkstra, B for BFS
 
 # Construct maze object
@@ -11,9 +12,41 @@ scale = 5
 maze = Maze('maze2.txt',scale)
 
 # Ask user for start point and goal point
-start_point = (0,0)
-goal_point = (200,150)
-robot_size = 3
+if user_input:
+    print('Please enter a start point (x,y)')
+    start_str_x = input('start x: ')
+    start_str_y = input('start y: ')
+    start_point = (int(start_str_x),int(start_str_y))
+else:
+    start_point = (5,5)
+# Check if start point is valid in maze 
+if maze.in_maze(start_point):
+    pass
+else:
+    print("The start point is not valid")
+    exit()
+    
+if user_input:
+    print('Please enter a goal point (x,y)')
+    start_str_x = input('start x: ')
+    start_str_y = input('start y: ')
+    goal_point = (int(start_str_x),int(start_str_y))
+else:
+  goal_point = (295,195)
+
+# Check if goal point is valid in maze 
+if maze.in_maze(goal_point):
+    pass
+else:
+    print("The goal point is not valid")
+    exit()
+
+if user_input:
+    print('Please enter the size of your robot')
+    size_str = input('radius: ')
+    robot_size = int(size_str)
+else:
+    robot_size = 5
 
 # Check if points are valid in maze 
 if maze.in_maze(start_point):

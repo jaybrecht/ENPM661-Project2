@@ -190,7 +190,7 @@ class PointRobot(Robot):
                 self.image[point[1],point[0]] = (0,255,255)
             else:
                 sx = point[0]*self.maze.scale
-                sy = point[1]*self.maze.scale
+                sy = (self.maze.height-point[1])*self.maze.scale
                 ex = sx+self.maze.scale
                 ey = sy+self.maze.scale
                 cv2.rectangle(self.maze.image,(sx,sy),(ex,ey),(0,255,255),-1)
@@ -210,7 +210,7 @@ class PointRobot(Robot):
 
         for point in self.path:
             sx = point[0]*self.maze.scale
-            sy = point[1]*self.maze.scale
+            sy = (self.maze.height-point[1])*self.maze.scale
             cv2.circle(self.maze.image,(sx,sy),self.maze.scale,(0,0,255),-1)
             if output:
                 out.write(self.maze.image)
@@ -232,6 +232,7 @@ class RigidRobot(Robot):
         self.radius = radius
 
     def visualize(self,show,output,stepsize):
+        node_color = (102, 255, 255)
         if output:
             fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
             frame_size = (self.maze.image.shape[1], self.maze.image.shape[0])
@@ -246,13 +247,13 @@ class RigidRobot(Robot):
   
         for i,point in enumerate(self.nodes):
             if self.maze.scale == 1:
-                self.image[point[1],point[0]] = (0,255,255)
+                self.image[point[1],point[0]] = node_color
             else:
                 sx = point[0]*self.maze.scale
-                sy = point[1]*self.maze.scale
+                sy = (self.maze.height-point[1])*self.maze.scale
                 ex = sx+self.maze.scale
                 ey = sy+self.maze.scale
-                cv2.rectangle(self.maze.image,(sx,sy),(ex,ey),(0,255,255),-1)
+                cv2.rectangle(self.maze.image,(sx,sy),(ex,ey),node_color,-1)
 
             if i%stepsize == 0:
                 if output:
@@ -270,7 +271,7 @@ class RigidRobot(Robot):
 
         for point in self.path:
             sx = point[0]*self.maze.scale
-            sy = point[1]*self.maze.scale
+            sy = (self.maze.height-point[1])*self.maze.scale
             cv2.circle(self.maze.image,(sx,sy),self.maze.scale*self.radius,(0,0,255),-1)
             if output:
                 out.write(self.maze.image)
@@ -279,8 +280,8 @@ class RigidRobot(Robot):
                 cv2.imshow('Maze Visualization',self.maze.image)
             if cv2.waitKey(1) == ord('q'):
                 exit()
-            if point == self.goal:
-                cv2.imwrte('searched_nodes.png',self.maze.image)
+            # if point == self.goal:
+                # cv2.imwrite('searched_nodes.png',self.maze.image)
 
         if output:
             out.release()
