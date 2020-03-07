@@ -5,10 +5,8 @@ import time
 from collections import deque
 
 class Robot:
-    def __init__(self,maze,start_point,goal_point):
+    def __init__(self,maze):
         self.maze = maze
-        self.start = start_point
-        self.goal = goal_point
 
     def move(self,point,direction):
         x = point[0]
@@ -28,7 +26,7 @@ class Robot:
         elif direction == 'S':
             new_point = (x,y-1)
         elif direction == 'SE':
-            new_point = (x,y-1)
+            new_point = (x-1,y-1)
 
         return new_point
 
@@ -51,8 +49,8 @@ class Robot:
 
 
     def BFS(self):
-        start_point = self.start
-        goal_point = self.goal
+        start_point = self.maze.start
+        goal_point = self.maze.goal
         maze = self.maze.maze
         nodes = []
 
@@ -95,8 +93,8 @@ class Robot:
         self.foundGoal = isgoal
 
     def Dijkstra(self):
-        start_point = self.start
-        goal_point = self.goal
+        start_point = self.maze.start
+        goal_point = self.maze.goal
         maze = self.maze.maze
         
         nodes = []
@@ -166,10 +164,12 @@ class Robot:
             else:
                 self.path.insert(0,nodes[ind])
 
+    
+
 
 class PointRobot(Robot):
-    def __init__(self,maze,start_point,goal_point):
-        super().__init__(maze,start_point,goal_point)
+    def __init__(self,maze):
+        super().__init__(maze)
 
     def visualize(self,show,output,stepsize):
         if output:
@@ -218,18 +218,35 @@ class PointRobot(Robot):
                 cv2.imshow('Maze Visualization',self.maze.image)
             if cv2.waitKey(1) == ord('q'):
                 exit()
-            if point == self.goal:
-                cv2.imwrite('Images/solution.png',self.maze.image)
+            if point == self.maze.goal:
+                # cv2.imwrite('Images/solution.png',self.maze.image)
                 cv2.waitKey(0)
         if output:
             out.release()
 
 
 class RigidRobot(Robot):
-    def __init__(self,maze,start_point,goal_point,radius,clearance):
-        super().__init__(maze,start_point,goal_point)
-        self.radius = radius
-        self.clearance = clearance
+    def __init__(self,maze):
+        super().__init__(maze)
+        self.get_params()
+
+    def get_params(self):
+        print('Please enter the size of your robot')
+        size_str = input('radius: ')
+        if size_str.isdigit():
+            self.radius = int(size_str)
+        else:
+            print('Please enter a number')
+            exit()
+        
+        print('Please enter the clearance for your robot')
+        clear_str = input('clearance: ')
+        if clear_str.isdigit():
+            self.clearance = int(clear_str)
+        else:
+            print('Please enter a number')
+            exit()
+
 
     def visualize(self,show,output,stepsize):
         node_color = (102, 255, 255)
@@ -280,7 +297,7 @@ class RigidRobot(Robot):
                 cv2.imshow('Maze Visualization',self.maze.image)
             if cv2.waitKey(1) == ord('q'):
                 exit()
-            if point == self.goal:
+            if point == self.maze.goal:
                 #cv2.imwrite('searched_nodes.png',self.maze.image)
                 cv2.waitKey(0)
 

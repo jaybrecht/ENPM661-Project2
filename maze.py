@@ -1,7 +1,7 @@
 import cv2 
 import math
 import numpy as np
-from shapely.geometry import Polygon
+# from shapely.geometry import Polygon
 
 class Maze:
     def __init__(self,filename,scale):
@@ -69,7 +69,8 @@ class Maze:
         for x in range(topx, topx+2*radius+1):
             for y in range(topy, topy+2*radius+1):
                 if ((x-center[0])**2 + (y-center[1])**2 <= radius**2):
-                    self.maze[y,x]=1
+                    if self.in_maze((x,y)):
+                        self.maze[y,x]=1
 
 
     def draw_polygon(self,obs,offset,color):
@@ -80,15 +81,14 @@ class Maze:
         
         contour = np.array(points, dtype=np.int32)
         
-        if offset == 0:
-            self.image = cv2.drawContours(self.image,[contour],-1,color,-1) 
-        else:
-            off_contour = np.squeeze(contour)
-            polygon = Polygon(off_contour)
-            offset_poly = polygon.buffer(offset*self.scale,cap_style=2, join_style=2)
-            off_points = offset_poly.exterior.coords
-            off_contour = np.array(off_points, dtype=np.int32)
-            self.image = cv2.drawContours(self.image,[off_contour],-1,color,-1) 
+        self.image = cv2.drawContours(self.image,[contour],-1,color,-1) 
+        # else:
+            # off_contour = np.squeeze(contour)
+            # polygon = Polygon(off_contour)
+            # offset_poly = polygon.buffer(offset*self.scale,cap_style=2, join_style=2)
+            # off_points = offset_poly.exterior.coords
+            # off_contour = np.array(off_points, dtype=np.int32)
+            # self.image = cv2.drawContours(self.image,[off_contour],-1,color,-1) 
 
 
     def define_polygon(self,obs,offset):
@@ -141,9 +141,11 @@ class Maze:
                         count+=1
                 if count==len(a):
                     if offset == 0:
-                        self.maze[y,x]=1
+                        if self.in_maze((x,y)):
+                            self.maze[y,x]=1
                     else:
-                        self.maze[y,x]=1
+                        if self.in_maze((x,y)):
+                            self.maze[y,x]=1
                 
 
     def draw_ellipse(self,obs,offset,color):
@@ -168,7 +170,8 @@ class Maze:
         for x in range(topx, topx+2*a1+1):
             for y in range(topy, topy+2*a2+1):
                 if ((((x-center[0])**2)/a1**2) + (((y-center[1])**2)/a2**2) <= 1):
-                    self.maze[y,x]=1
+                    if self.in_maze((x,y)):
+                        self.maze[y,x]=1
 
 
     def draw_rotated_rect(self,obs,offset,color):
@@ -402,6 +405,35 @@ class Maze:
         maze_file.close()
         self.obstacles = obstacles
     
+
+    def get_user_nodes(self):
+        print('Please enter a start point (x,y)')
+        start_str_x = input('start x: ')
+        start_str_y = input('start y: ')
+        start_point = (int(start_str_x),int(start_str_y))
+
+        # Check if start point is valid in maze 
+        if self.in_maze(start_point):
+            pass
+        else:
+            print("The start point is not valid")
+            exit()
+            
+        print('Please enter a goal point (x,y)')
+        start_str_x = input('start x: ')
+        start_str_y = input('start y: ')
+        goal_point = (int(start_str_x),int(start_str_y))
+
+        # Check if goal point is valid in maze 
+        if self.in_maze(goal_point):
+            pass
+        else:
+            print("The goal point is not valid")
+            exit()
+
+        self.start = start_point
+        self.goal = goal_point
+
 
 if __name__ == '__main__':
     maze = 'maze1'
