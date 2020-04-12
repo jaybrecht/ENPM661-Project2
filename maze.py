@@ -31,14 +31,6 @@ class Maze:
                 self.draw_rotated_rect(obs,0,obs['color'])
                 self.define_rotated_rect(obs,0)
 
-        # maze_not_scaled = cv2.resize(self.image,(self.width,self.height))
-        # inds=np.nonzero(maze_not_scaled)
-        
-        # for i in range(len(inds[0])):
-        #     x = inds[1][i]
-        #     y = inds[0][i]
-        #     self.maze[y,x] = 1
-
 
     def in_maze(self,point):
         # Checks whether a point is in bounds and not an obstacle
@@ -82,13 +74,6 @@ class Maze:
         contour = np.array(points, dtype=np.int32)
         
         self.image = cv2.drawContours(self.image,[contour],-1,color,-1) 
-        # else:
-            # off_contour = np.squeeze(contour)
-            # polygon = Polygon(off_contour)
-            # offset_poly = polygon.buffer(offset*self.scale,cap_style=2, join_style=2)
-            # off_points = offset_poly.exterior.coords
-            # off_contour = np.array(off_points, dtype=np.int32)
-            # self.image = cv2.drawContours(self.image,[off_contour],-1,color,-1) 
 
 
     def define_polygon(self,obs,offset):
@@ -219,37 +204,26 @@ class Maze:
         
 
     def expand_obstacles(self,offset):
-        off_color = (255,102,0)
         for obs in self.obstacles:
             if obs['type'] == 'c': # circle
-                # self.draw_circle(obs,offset,off_color)
-                # self.draw_circle(obs,0,obs['color'])
                 self.define_circle(obs, offset)
 
             elif obs['type'] == 'p': # polygon
-                # self.draw_polygon(obs,offset,off_color)    
-                # self.draw_polygon(obs,0,obs['color'])  
                 self.define_polygon(obs, offset)       
 
             elif obs['type'] == 'e': # ellipse
-                # self.draw_ellipse(obs,offset,off_color)
-                # self.draw_ellipse(obs,0,obs['color'])
                 self.define_ellipse(obs, offset)
 
             elif obs['type'] == 'rr': # rotate rect
-                # self.draw_rotated_rect(obs,offset,off_color)
-                # self.draw_rotated_rect(obs,0,obs['color'])
                 self.define_rotated_rect(obs, offset)
 
-        # maze_not_scaled = cv2.resize(self.image,(self.width,self.height))
-        # self.maze = np.zeros((self.height,self.width),dtype=np.uint8)
-        # inds=np.nonzero(maze_not_scaled)
-        
-        # for i in range(len(inds[0])):
-        #     x = inds[1][i]
-        #     y = self.height-inds[0][i]
-        #     if self.in_maze((x,y)):
-        #         self.maze[y,x] = 1
+        for i in range(self.width):
+            for j in range(self.height):
+                if offset<i<(self.width-offset) and offset<j<(self.height-offset):
+                    pass
+                else:
+                    self.maze[j,i] = 1
+
 
 
     def contract_obstacles(self,offset):
@@ -438,5 +412,7 @@ class Maze:
 if __name__ == '__main__':
     maze = 'maze1'
     mymaze = Maze(maze+'.txt',5)
-    cv2.imwrite('Images/maze1.png',mymaze.image)
+    mymaze.expand_obstacles(10)
+    cv2.imshow('Images/maze1.png',mymaze.maze)
+    cv2.waitKey(0)
 

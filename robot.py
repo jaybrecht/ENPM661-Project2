@@ -3,6 +3,7 @@ import numpy as np
 import math
 import time
 from collections import deque
+import bisect
 
 class Robot:
     def __init__(self,maze):
@@ -117,10 +118,12 @@ class Robot:
 
         isgoal = False
         cost2come = 0
+        queue_costs = [cost2come]
 
         while queue:
             # Set the current node as the top of the queue and remove it
             parent = queue.popleft()
+            scrap = queue_costs.pop(0)
             cur_node = nodes[parent]
             cost2come = costs[cur_node[1],cur_node[0]]
             neighbors = self.check_neighbors(cur_node)
@@ -131,7 +134,12 @@ class Robot:
                 if p not in points:
                     nodes.append(p)
                     points.add(p)
-                    queue.append(len(nodes)-1)
+
+                    cost_fun = cost2come+c
+                    sorted_ind = bisect.bisect_right(queue_costs,cost_fun)
+                    queue.insert(sorted_ind,(len(nodes)-1))
+                    queue_costs.insert(sorted_ind,cost_fun)
+
                 if cost2come + c < costs[p[1],p[0]]:
                     costs[p[1],p[0]] = cost2come + c
                     parents[p[1],p[0]] = parent

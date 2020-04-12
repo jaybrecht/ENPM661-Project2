@@ -14,11 +14,21 @@ maze = Maze('maze2.txt',scale)
 # Ask user for start point and goal point
 maze.get_user_nodes()
 
+
 # Construct the robot
 robot = RigidRobot(maze)
 
 # Expand obstacles
 robot.maze.expand_obstacles(robot.radius+robot.clearance)
+
+if not (robot.maze.in_maze(robot.maze.start)):
+    print('The start position is not valid')
+    exit()
+
+if not (robot.maze.in_maze(robot.maze.goal)):
+    print('The start position is not valid')
+    exit()
+
 
 # Run Search
 if search_type == 'D':
